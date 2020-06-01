@@ -2,11 +2,11 @@
 
 # arguments
 action=$1
-container_name="jrvs-sql"
+container_name='jrvs-sql'
 PGPASSWORD='password'
 
 # validate arguments
-if [ "$#" -lt 1 ]; then
+if [ "$#" -ne 1 ] && [ "$#" -ne 3 ]; then
     echo "Illegal number of arguments"
     exit 1
 fi
@@ -24,7 +24,7 @@ if [ "$action" == "create" ]; then
         exit 1
     fi
 
-    # export name and password of the database
+    # arguments for create
     db_name=$2
     db_password=$3
 
@@ -59,6 +59,6 @@ if [ "$action" == "stop" ]; then
 fi
 
 # If the first argument provided is invalid, print error message
-echo "Invalid action, first argument must be start, stop or create"
+echo "Invalid action, first argument must be start, stop, or create"
 exit 1
 
