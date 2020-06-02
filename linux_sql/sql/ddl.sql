@@ -19,14 +19,13 @@ CREATE TABLE IF NOT EXISTS PUBLIC.host_info
 CREATE TABLE IF NOT EXISTS PUBLIC.host_usage
     (
         -- Declare table columns and data types
-        host_id          SERIAL NOT NULL,
         "timestamp"      TIMESTAMP NOT NULL,
+        host_id          SERIAL NOT NULL,
         memory_free      INT NOT NULL,
         cpu_idle         INT NOT NULL,
         cpu_kernel       INT NOT NULL,
         disk_io          INT NOT NULL,
         disk_available   INT NOT NULL,
         -- Add foreign key constraint
-        PRIMARY KEY (host_id),
         FOREIGN KEY (host_id) REFERENCES host_info (id)
     );
