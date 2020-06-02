@@ -2,8 +2,9 @@
 
 # arguments
 action=$1
+db_name=$2
+db_password=$3
 container_name='jrvs-sql'
-PGPASSWORD='password'
 
 # validate arguments
 if [ "$#" -ne 1 ] && [ "$#" -ne 3 ]; then
@@ -20,13 +21,9 @@ docker pull postgres
 if [ "$action" == "create" ]; then
     # validate arguments
     if [ "$#" -ne 3 ]; then
-        echo "Illegal number of arguments"
+        echo "Illegal number of arguments, must provide name and password"
         exit 1
     fi
-
-    # arguments for create
-    db_name=$2
-    db_password=$3
 
     # Make sure that container does not already exist
     if [ `docker container ls -a -f name=$container_name | wc -l` -eq 2 ]; then
@@ -35,8 +32,7 @@ if [ "$action" == "create" ]; then
     fi
 
     # create a new volume and container using psql image
-    docker volume create pgdata
-    docker run --name $container_name -e POSTGRES_PASSWORD=$PGPASSWORD -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
+    docker run --name jrvs-psql -e POSTGRES_PASSWORD=${db_password} -e POSTGRES_USER=${db_name} -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
     exit $?
 fi
 
