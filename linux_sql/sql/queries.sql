@@ -7,9 +7,18 @@ FROM
     host_info info
     INNER JOIN host_usage usage
     ON info.id = usage.host_id
-GROUP BY
-    info.cpu_number
 ORDER BY
-    info.total_mem;
+    info.cpu_number, info.total_mem DESC;
 
 -- Average used memory in percentage over 5 minute intervals for each host.
+SELECT
+    usage.host_id,
+    info.hostname,
+    (SELECT MIN(timestamp) FROM host_usage),
+    AVG ((((info.total_mem - usage.memory_free)/info.total_mem::float) * 100)::INTEGER) OVER (
+	   PARTITION BY usage.timestamp
+	)
+FROM
+    host_info info
+    INNER JOIN host_usage usage
+    ON info.id = usage.host_id;
