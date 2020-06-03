@@ -24,9 +24,8 @@ disk_available=$(df -BM / | tail -n +2 | awk '{print $4}' | sed 's/.$//' | xargs
 
 # Construct INSERT statement
 insert_stmt="INSERT INTO host_usage (timestamp,host_id,memory_free,cpu_idle,cpu_kernel,disk_io,disk_available)
-VALUES ($timestamp, (SELECT id FROM host_info), $memory_free, $cpu_idle, $cpu_kernel, $disk_io, $disk_available);"
+VALUES ('${timestamp}', (SELECT id FROM host_info), ${memory_free}, ${cpu_idle}, ${cpu_kernel}, ${disk_io}, ${disk_available});"
 
 # Execute INSERT statement
 export PGPASSWORD=$psql_password
-psql -h $psql_host -p $psql_port -U $psql_user -d $db_name
-psql -h $psql_host -p $psql_port -U $psql_user -d $db_name -c $insert_stmt
+psql -h $psql_host -p $psql_port -U $psql_user -d $db_name -c "$insert_stmt"
