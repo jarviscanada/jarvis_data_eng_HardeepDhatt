@@ -32,7 +32,7 @@ if [ "$action" == "create" ]; then
     fi
 
     # create a new volume and container using psql image
-    docker run --name jrvs-psql -e POSTGRES_PASSWORD=${db_password} -e POSTGRES_USER=${db_name} -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
+    docker run --name $container_name -e POSTGRES_PASSWORD=${db_password} -e POSTGRES_USER=${db_name} -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
     exit $?
 fi
 
