@@ -17,15 +17,14 @@ SELECT
     usage.host_id,
     info.hostname,
     DATE_TRUNC('hour', usage.timestamp) + DATE_PART('min', usage.timestamp)::INTEGER / 5 * interval '5 min' AS interv,
-    AVG ((((info.total_mem - usage.memory_free)/info.total_mem::float) * 100)::INTEGER) OVER (
-	   PARTITION BY(
-	        DATE_TRUNC('hour', usage.timestamp) + DATE_PART('min', usage.timestamp)::INTEGER / 5 * interval '5 min',
-	        usage.host_id
-	   )
-	) AS avg_mem_used
+    AVG ((((info.total_mem - usage.memory_free)/info.total_mem::float) * 100)::INTEGER) AS avg_mem_used
 FROM
     host_info info
     INNER JOIN host_usage usage
     ON info.id = usage.host_id
+GROUP BY
+    DATE_TRUNC('hour', usage.timestamp) + DATE_PART('min', usage.timestamp)::INTEGER / 5 * interval '5 min',
+    usage.host_id,
+    info.hostname
 ORDER BY
     usage.host_id;
