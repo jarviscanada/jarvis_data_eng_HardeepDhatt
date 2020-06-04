@@ -42,12 +42,36 @@ crontab -e
 ```
 
 # Architecture Diagram
-Draw a cluster diagram with three Linux hosts, a DB, and agents (use draw.io website). Image must be saved to `assets` directory.
+![architecture diagram](/assets/architecture.png)
 
 # Database Modeling
-Describe the schema of each table using markdown table syntax (do not put any sql code)
-- `host_info`
-- `host_usage`
+The database, host_agent, is made up of two tables, host_info which contains the 
+hardware specifications of the computer, and host_usage which containes the 
+resource usage of the computer. \
+The `host_info` table contains the following columns. It is only
+executed once as hardware specifications are expected to be constant
+- `id`: A unique identifier corresponding to each node in the cluster, automatically incremented every time a new entry is added
+- `hostname`: A unique character string that contains the hostname of the corresponding node
+- `cpu_number`: The number of CPU cores of the corresponding node
+- `cpu_architecture`: The architecture of the CPU of the corresponding node
+- `cpu_model`: The CPU model of the corresponding node
+- `cpu_mhz`: The clock speed of the CPU of the corresponding node in MHz
+- `L2_cache`: The cache size of the corresponding node in kB
+- `total_mem`: The amount of RAM of the corresponding node in kB
+- `timestamp`: The date and time at which the data was obtained
+
+The `host_usage` table contains information on the resource consumption of the 
+current node. It can be collected manually, and given the dynamix nature of computer
+resource usage this data is being collected every minute. This table contains the 
+following columns.
+- `timestamp`: The date and time at which the data was obtained
+- `host_id`: The unique identifier corresponding to each node in the cluster, automatically added via the `host_info` table as a foreign key.
+- `memory_free`: The amount of free memory in mB of the corresponding node 
+- `cpu_idle`: The percentage of CPU time spent in idle of the corresponding node
+- `cpu_kernel`: The percentage of CPU time spent running kernel code of the corresponding node
+- `disk_io`: The number of disk input and output of the corresponding node
+- `disk_available`: The amount of space available on the disk in mB of the corresponding node
+
 
 ## Scripts
 Shell script descirption and usage (use markdown code block for script usage)
