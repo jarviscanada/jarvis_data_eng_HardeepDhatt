@@ -97,13 +97,13 @@ crontab is the tool that is used to automate the aforementioned `host_usage.sh`.
     # Initialize the database and tables
     psql -h psql_host -U username -W -f linux_sql/sql/ddl.sql
     ```
-1. `host_info.sh usage` \
+1. `host_info.sh` usage \
     `host_info.sh` is only run once so we can run it from the command line as follows, in order to add the host hardware specifications to the `host_info` table
     ``` bash
     # Provide the arguments for the PSQL host, the PSQL port, the database name, and the username and password used to provision the PSQL instance
     ./linux_sql/scripts/host_info.sh psql_host psql_port db_name username password
     ```
-1. `host_usage.sh usage` \
+1. `host_usage.sh` usage \
     `host_info.sh` can be run manually from the command line as follows, in order to add the host resource usage to the `host_usage` table
     ``` bash
     # Provide the arguments for the PSQL host, the PSQL port, the database name, and the username and password used to provision the PSQL instance.
@@ -127,4 +127,4 @@ crontab is the tool that is used to automate the aforementioned `host_usage.sh`.
 ## Improvements 
 - Implement a dashboard that allows the user to see the performance of each node at a glance. This can provide a visualization of each computer's usage over time.
 - Include a shell script that can automate all of the scripts and queries used in this project so that it is more user friendly. It can be implemented so that all of the parameters are passed to single executable `.sh` file, which will provision a psql instance and create a database that houses all of the information from the executed `host_usage.sh` and `host_info.sh` files. 
-- Optimize the crontab tool so that it only runs during times at which the servers are under use, and stop during prolonged periods in which they are idle 
+- Optimize the crontab tool so that it only runs during times at which the servers are underuse, and stop during prolonged periods in which they are idle 
