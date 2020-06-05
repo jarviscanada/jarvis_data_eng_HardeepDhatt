@@ -29,3 +29,4 @@ VALUES ('${timestamp}', (SELECT id FROM host_info), ${memory_free}, ${cpu_idle},
 # Execute INSERT statement
 export PGPASSWORD=$psql_password
 psql -h $psql_host -p $psql_port -U $psql_user -d $db_name -c "$insert_stmt"
+exit $?

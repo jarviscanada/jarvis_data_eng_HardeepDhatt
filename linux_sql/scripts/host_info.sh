@@ -31,3 +31,4 @@ VALUES ('${hostname}',${cpu_number},'${cpu_architecture}', '${cpu_model}', ${cpu
 # Execute INSERT statement
 export PGPASSWORD=$psql_password
 psql -h $psql_host -p $psql_port -U $psql_user -d $db_name -c "$insert_stmt"
+exit $?
